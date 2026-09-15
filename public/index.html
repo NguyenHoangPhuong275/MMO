@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Bot MMO - Gemini Pro & CapCut Pro giao tự động</title>
+  <meta name="description" content="Mua Link Gemini Pro 18M, CapCut Pro Team 1M và CapCut Pro 7D. Thanh toán VietQR MSB bằng VNĐ và giao tự động.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20260916-fix5">
+</head>
+<body>
+  <!-- Ambient Glow -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <div class="app-container">
+    <!-- Main Top Navbar -->
+    <header class="app-header">
+      <div class="header-left">
+        <a href="#" class="brand-logo" onclick="store.filterCategory('all'); return false;">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title" id="site-title-display">SHOP BOT MMO</span>
+            <span class="brand-sub">Hệ Thống Bán Tài Khoản Tự Động 24/7</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-right">
+        <div class="rate-pill" title="Tỷ giá quy đổi USDT/VNĐ">
+          <svg class="rate-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="m13 2-9 12h8l-1 8 9-12h-8l1-8Z"/>
+          </svg>
+          <span class="rate-label">Tỷ giá:</span>
+          <strong id="header-usdt-rate">1 USDT = 25,000 đ</strong>
+        </div>
+
+        <!-- Theme Toggle (Dark / Light) -->
+        <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="store.toggleTheme()" aria-label="Chuyển đổi giao diện Sáng/Tối" title="Chuyển đổi giao diện Sáng/Tối">
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- Dynamic User Auth Section -->
+        <div id="auth-guest-section" class="auth-buttons-group">
+          <button class="btn btn-secondary btn-sm" onclick="store.openAuthModal('login')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>
+            </svg>
+            Đăng nhập
+          </button>
+          <button class="btn btn-primary btn-sm btn-glow" onclick="store.openAuthModal('register')">
+            Đăng ký
+          </button>
+        </div>
+
+        <div id="auth-user-section" class="auth-user-group" style="display: none;">
+          <button id="btn-active-payment" class="btn btn-primary btn-sm btn-glow" style="display: none;" onclick="store.openActivePayment()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+            Đơn chờ thanh toán
+          </button>
+          <!-- Customer Orders Button -->
+          <button class="btn btn-secondary btn-sm btn-orders" onclick="store.openOrdersModal()" title="Lịch sử mua hàng của bạn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span>Đơn hàng</span>
+          </button>
+
+          <!-- Admin Dashboard Switch (Visible only for admin) -->
+          <button id="btn-admin-panel-switch" class="btn btn-warning btn-sm" style="display: none;" onclick="store.openAdminModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1A2 2 0 1 1 4.4 17l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1A2 2 0 1 1 7 4.4l.1.1a1.7 1.7 0 0 0 1.8.3h.2a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1A2 2 0 1 1 19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.8v.2a1.7 1.7 0 0 0 1.5 1h.1a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+            <span>Quản trị</span>
+          </button>
+
+          <!-- User Menu / Profile Pill -->
+          <div class="user-pill" id="user-profile-pill">
+            <div class="user-avatar" id="user-avatar-text">U</div>
+            <div class="user-info-text">
+              <span class="user-name" id="user-display-name">Username</span>
+              <span class="user-role-badge" id="user-role-badge">Khách hàng</span>
+            </div>
+            <button class="btn-logout" onclick="store.logout()" title="Đăng xuất khỏi tài khoản" aria-label="Đăng xuất">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Announcement Bar -->
+    <div id="site-announcement-bar" class="announcement-banner">
+      <svg class="announcement-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3Z"/><path d="M11.6 15.9 13 21H8l-1.7-6"/></svg>
+      <span id="announcement-text">Chào mừng bạn đến với Siêu Thị Tài Khoản Tự Động! Giao hàng tự động 24/7.</span>
+    </div>
+
+    <!-- Hero Storefront Banner -->
+    <section class="store-hero">
+      <div class="hero-content">
+        <div class="hero-tag"><span></span> DIGITAL ACCESS STORE</div>
+        <h1 class="hero-title">Công cụ AI & sáng tạo,<br><em>sẵn sàng trong vài phút.</em></h1>
+        <p class="hero-desc">Chỉ ba gói được chọn lọc kỹ: Gemini Pro dài hạn và CapCut Pro cho cá nhân hoặc đội nhóm. Quy trình mua gọn, giao tự động và lưu lịch sử đầy đủ.</p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" onclick="document.getElementById('featured-products').scrollIntoView({ behavior: 'smooth' })">
+            Xem 3 gói nổi bật
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <button class="btn btn-secondary btn-lg" onclick="document.getElementById('featured-products').scrollIntoView({ behavior: 'smooth' })">
+            Khám phá danh mục
+          </button>
+        </div>
+
+        <div class="hero-trust-badges">
+          <div class="trust-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m13 2-9 12h8l-1 8 9-12h-8l1-8Z"/></svg>
+            <div class="trust-badge-text">
+              <strong>Giao tự động</strong>
+              <small>Nhận thông tin ngay</small>
+            </div>
+          </div>
+          <div class="trust-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3v8Z"/><path d="m9 12 2 2 4-4"/></svg>
+            <div class="trust-badge-text">
+              <strong>Bảo hành chu đáo</strong>
+              <small>Hỗ trợ 1-1 nhanh chóng</small>
+            </div>
+          </div>
+          <div class="trust-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div class="trust-badge-text">
+              <strong>Hỗ trợ 24/7</strong>
+              <small>Hệ thống vận hành liên tục</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="hero-commerce-card" aria-label="Sản phẩm Gemini Pro nổi bật">
+        <img src="images/products/gemini-pro-18m.webp" alt="Minh họa gói Gemini Pro 18 tháng" width="1200" height="900" fetchpriority="high">
+        <div class="hero-product-chip">Lựa chọn dài hạn</div>
+        <div class="hero-card-footer">
+          <div>
+            <span>Link Gemini Pro 18M</span>
+            <strong>Truy cập AI dài hạn, giao link tự động</strong>
+          </div>
+          <div class="hero-live-stock"><i></i><span id="hero-stock-total">0</span> gói sẵn sàng</div>
+        </div>
+        <span id="hero-product-total" class="sr-only">0 sản phẩm</span>
+      </aside>
+    </section>
+
+    <section id="featured-products" class="catalog-section" aria-labelledby="catalog-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-eyebrow">Danh mục tinh gọn</span>
+          <h2 id="catalog-title">Ba gói được chọn nhiều nhất</h2>
+          <p>Chỉ giữ lại các lựa chọn thiết thực, thông tin rõ ràng và tồn kho cập nhật theo thời gian thực.</p>
+        </div>
+        <div class="catalog-assurance" aria-label="Cam kết dịch vụ">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M20 6 9 17l-5-5"/>
+          </svg>
+          <span><strong>Giao tự động</strong><small>Sau khi thanh toán</small></span>
+        </div>
+      </div>
+
+      <div id="products-grid" class="products-grid">
+        <div class="product-skeleton-card"></div>
+        <div class="product-skeleton-card"></div>
+        <div class="product-skeleton-card"></div>
+      </div>
+
+      <div id="products-empty-state" class="empty-state" style="display: none;">
+        <svg class="empty-icon" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
+        </svg>
+        <h3>Sản phẩm đang tạm hết hàng</h3>
+        <p>Vui lòng quay lại sau hoặc liên hệ hỗ trợ để được cập nhật sớm nhất.</p>
+      </div>
+
+      <div id="products-load-more" class="load-more-wrap" style="display: none;">
+        <button class="btn btn-secondary" onclick="store.loadMoreProducts()">Xem thêm sản phẩm</button>
+        <span id="products-result-count" class="result-count"></span>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="store-footer">
+      <div class="footer-bottom">
+        <p>© 2026 Shop Bot MMO. Hệ thống phân phối tài khoản số tự động. Uy tín tạo niềm tin.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ĐĂNG NHẬP / ĐĂNG KÝ KHÁCH HÀNG     -->
+  <!-- ========================================== -->
+  <div id="modal-auth" class="modal-backdrop">
+    <div class="modal-dialog modal-auth-card">
+      <div class="modal-header auth-modal-header">
+        <div class="auth-header-brand">
+          <div class="auth-brand-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div class="auth-header-copy">
+            <h3 class="auth-modal-title" id="auth-modal-title">Chào mừng trở lại!</h3>
+            <p class="auth-modal-subtitle" id="auth-modal-subtitle">Đăng nhập tài khoản để nhận sản phẩm tức thì</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" data-close-modal aria-label="Đóng cửa sổ">&times;</button>
+      </div>
+
+      <div class="auth-tabs-wrapper">
+        <div class="auth-tabs-segmented" role="tablist">
+          <button type="button" class="auth-tab-btn active" id="tab-btn-login" role="tab" aria-selected="true" onclick="store.switchAuthTab('login')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+            Đăng nhập
+          </button>
+          <button type="button" class="auth-tab-btn" id="tab-btn-register" role="tab" aria-selected="false" onclick="store.switchAuthTab('register')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            Tạo tài khoản
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-body auth-modal-body">
+        <!-- Inline Alert Message Container -->
+        <div id="auth-inline-alert" class="auth-inline-alert" style="display: none;"></div>
+
+        <!-- Login Form -->
+        <form id="form-login" class="auth-form" onsubmit="store.handleLogin(event)">
+          <!-- Demo Credential Quick Pill -->
+          <div class="demo-credential-banner">
+            <button type="button" class="demo-credential-chip" onclick="store.fillDemoAccount('vandong', '123456')" title="Bấm để tự động điền tài khoản vandong / 123456">
+              <span class="demo-chip-tag">Tài khoản demo</span>
+              <strong class="demo-chip-user">vandong</strong>
+              <span class="demo-chip-sep">•</span>
+              <span class="demo-chip-pwd">123456</span>
+              <span class="demo-chip-action">Điền nhanh ↵</span>
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="login-username">Tên tài khoản</label>
+            <div class="input-with-icon-wrapper">
+              <span class="input-prefix-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+              </span>
+              <input type="text" id="login-username" class="form-input form-input-with-icon" placeholder="Nhập username của bạn" required autocomplete="username">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label" for="login-password">Mật khẩu</label>
+            </div>
+            <div class="input-with-icon-wrapper">
+              <span class="input-prefix-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </span>
+              <input type="password" id="login-password" class="form-input form-input-with-icon" placeholder="Nhập mật khẩu" required autocomplete="current-password">
+              <button type="button" class="password-toggle-btn" onclick="store.togglePasswordVisibility('login-password', this)" aria-label="Hiện/Ẩn mật khẩu" title="Hiện/Ẩn mật khẩu">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="btn-submit-login" class="btn btn-primary btn-block btn-lg btn-glow auth-submit-btn">
+            <span>Đăng nhập ngay</span>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="form-register" class="auth-form" style="display: none;" onsubmit="store.handleRegister(event)">
+          <div class="form-group">
+            <label class="form-label" for="register-username">Tên tài khoản <span class="required-star">*</span></label>
+            <div class="input-with-icon-wrapper">
+              <span class="input-prefix-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+              </span>
+              <input type="text" id="register-username" class="form-input form-input-with-icon" placeholder="Từ 3 ký tự (viết liền, không dấu)" required minlength="3" autocomplete="username">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label" for="register-email">Email <span class="label-hint">(Tùy chọn)</span></label>
+            </div>
+            <div class="input-with-icon-wrapper">
+              <span class="input-prefix-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+              </span>
+              <input type="email" id="register-email" class="form-input form-input-with-icon" placeholder="Dùng để nhận thông tin đơn hàng" autocomplete="email">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="register-password">Mật khẩu <span class="required-star">*</span></label>
+            <div class="input-with-icon-wrapper">
+              <span class="input-prefix-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </span>
+              <input type="password" id="register-password" class="form-input form-input-with-icon" placeholder="Tối thiểu 6 ký tự" required minlength="6" autocomplete="new-password">
+              <button type="button" class="password-toggle-btn" onclick="store.togglePasswordVisibility('register-password', this)" aria-label="Hiện/Ẩn mật khẩu" title="Hiện/Ẩn mật khẩu">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="btn-submit-register" class="btn btn-primary btn-block btn-lg btn-glow auth-submit-btn">
+            <span>Tạo tài khoản ngay</span>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: THANH TOÁN VIETQR PAYOS TỰ ĐỘNG    -->
+  <!-- ========================================== -->
+  <div id="modal-payment" class="modal-backdrop">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <h3 class="modal-title">Thanh toán đơn hàng VietQR</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="deposit-notice-card">
+          <div class="notice-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          <div class="notice-text">
+            <span>Quét mã VietQR bằng ứng dụng ngân hàng bất kỳ. Hệ thống sẽ tự động giao hàng ngay sau khi nhận được tiền (<strong>Đúng số tiền & Nội dung</strong>).</span>
+          </div>
+        </div>
+
+        <div class="deposit-pane active">
+          <div id="msb-active-view">
+            <div class="deposit-active-body">
+              <div class="status-badge-pulse" id="msb-status-badge" role="status" aria-live="polite" aria-atomic="true">
+                <span class="pulse-dot-amber"></span>
+                  <span id="msb-status-label">Đang chờ ngân hàng xác nhận thanh toán...</span>
+              </div>
+
+              <div class="qr-container">
+                <img id="msb-qr-image" class="qrcode-wrapper msb-qr-image" alt="Mã VietQR thanh toán đơn hàng" width="270" height="320">
+                <div class="qr-caption">Mở ứng dụng ngân hàng và quét mã VietQR</div>
+              </div>
+
+              <div class="payment-info-box">
+                <div class="info-item">
+                  <span class="info-label">NỘI DUNG CHUYỂN KHOẢN:</span>
+                  <div class="wallet-copy-row">
+                    <code id="msb-transfer-content" class="wallet-code">DH...</code>
+                    <button class="btn btn-sm btn-outline" onclick="store.copyText(document.getElementById('msb-transfer-content').innerText, 'Đã sao chép nội dung!')">Sao chép</button>
+                  </div>
+                  <div class="warning-sub">Không chỉnh sửa nội dung để hệ thống nhận đúng đơn.</div>
+                </div>
+
+                <div class="info-item highlight-amount">
+                  <span class="info-label">SỐ TIỀN CẦN CHUYỂN:</span>
+                  <div class="amount-copy-row">
+                    <span class="big-amount" id="msb-payment-amount" data-raw="0">0 đ</span>
+                    <button class="btn btn-sm btn-outline" onclick="store.copyText(document.getElementById('msb-payment-amount').dataset.raw, 'Đã sao chép số tiền!')">Sao chép</button>
+                  </div>
+                  <div class="warning-sub">Cần chuyển đúng số tiền để đơn được xử lý tự động.</div>
+                </div>
+
+                <div class="info-item">
+                  <span class="info-label">TÀI KHOẢN NHẬN (VIETQR):</span>
+                  <div class="wallet-copy-row">
+                    <code id="msb-account-number" class="wallet-code">...</code>
+                    <button class="btn btn-sm btn-outline" onclick="store.copyText(document.getElementById('msb-account-number').innerText, 'Đã sao chép số tài khoản!')">Sao chép</button>
+                  </div>
+                  <div class="warning-sub" id="msb-account-name"></div>
+                </div>
+              </div>
+
+              <div class="auto-checker-status">
+                <div class="checker-spinner"></div>
+                <div class="checker-text">
+                  <span>Hệ thống tự động kiểm tra mỗi 10 giây...</span>
+                  <p class="checker-sub" id="msb-expiry-hint">Sản phẩm được kích hoạt và giao ngay sau khi nhận tiền.</p>
+                </div>
+                <button class="btn btn-secondary btn-sm" id="btn-msb-check" onclick="store.checkMsbPayment(true)">Kiểm tra ngay</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: MUA SẢN PHẨM (PURCHASE)            -->
+  <!-- ========================================== -->
+  <div id="modal-buy" class="modal-backdrop">
+    <div class="modal-dialog modal-md">
+      <div class="modal-header">
+        <h3 class="modal-title">Xác nhận đặt mua</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="buy-product-summary">
+          <h4 id="buy-prod-name" class="buy-title">Tên sản phẩm</h4>
+          <div class="buy-stock-info">
+            Tồn kho: <span id="buy-prod-stock" class="text-emerald">0</span> tài khoản có sẵn
+          </div>
+        </div>
+
+        <form id="buy-action-form" onsubmit="store.handleConfirmBuy(event)">
+          <div class="form-group">
+            <label for="buy-qty-val">Số lượng mua:</label>
+            <div class="quantity-controller">
+              <button type="button" class="qty-btn" onclick="store.adjustBuyQty(-1)">-</button>
+              <input type="number" id="buy-qty-val" value="1" min="1" max="100" oninput="store.updateBuyTotal()">
+              <button type="button" class="qty-btn" onclick="store.adjustBuyQty(1)">+</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Thanh toán trực tiếp:</label>
+            <div class="currency-selector-grid">
+              <div class="currency-option-card selected payment-method-static">
+                <div class="option-content">
+                  <div class="option-header">
+                    <span class="opt-name">VietQR · Tự động 24/7</span>
+                    <span class="opt-balance">VNĐ</span>
+                  </div>
+                  <div class="opt-price-calc" id="opt-total-vnd">Tổng: 0 đ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="buy-payment-unavailable" class="form-alert alert-warning" style="display: none;">
+            <span>Thanh toán VietQR đang được bảo trì. Vui lòng quay lại sau.</span>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-close-modal>Hủy</button>
+            <button type="submit" id="btn-submit-buy" class="btn btn-primary btn-glow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+              </svg>
+              Tạo mã VietQR
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: GIAO HÀNG THÀNH CÔNG (DELIVERY)    -->
+  <!-- ========================================== -->
+  <div id="modal-delivery" class="modal-backdrop">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header header-success">
+        <div class="success-header-content">
+          <div class="success-icon-badge" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <div>
+            <h3 class="modal-title">Giao dịch thành công!</h3>
+            <p class="modal-subtitle" id="delivery-prod-title">Sản phẩm của bạn đã được kích hoạt</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="delivery-notice">
+          Dưới đây là thông tin tài khoản / mã kích hoạt của bạn. Hệ thống cũng đã lưu vào mục <strong>Lịch sử đơn hàng</strong>:
+        </div>
+
+        <div class="items-received-box">
+          <div class="items-header">
+            <span>Danh sách tài khoản (<strong id="delivery-items-count">0</strong>):</span>
+            <button class="btn btn-sm btn-primary" onclick="store.copyAllDeliveryItems()">Sao chép tất cả</button>
+          </div>
+          <div id="delivery-items-list" class="items-scroll-list"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal>Đóng</button>
+        <button class="btn btn-outline" onclick="store.openOrdersModal()">Xem Lịch sử mua hàng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: XEM MÔ TẢ & BẢO HÀNH CHI TIẾT      -->
+  <!-- ========================================== -->
+  <!-- ========================================== -->
+  <!-- MODAL: XEM MÔ TẢ & BẢO HÀNH CHI TIẾT      -->
+  <!-- ========================================== -->
+  <div id="modal-prod-detail" class="modal-backdrop">
+    <div class="modal-dialog modal-detail-card">
+      <div class="modal-header detail-modal-header">
+        <div class="detail-header-text">
+          <span class="detail-eyebrow" id="modal-detail-eyebrow">Gói công cụ số</span>
+          <h3 id="modal-detail-title" class="modal-title detail-title">Chi tiết sản phẩm</h3>
+        </div>
+        <button class="modal-close-btn" data-close-modal aria-label="Đóng">&times;</button>
+      </div>
+
+      <div class="modal-body detail-modal-body">
+        <!-- Product Visual Banner Preview -->
+        <div class="detail-media-banner" id="modal-detail-media-wrap">
+          <img id="modal-detail-img" src="/images/products/gemini-pro-18m.webp" alt="Minh họa sản phẩm" width="600" height="240">
+          <div class="detail-banner-overlay">
+            <span class="detail-badge-pill" id="modal-detail-pill">Gói nổi bật</span>
+            <span class="detail-stock-chip" id="modal-detail-stock-chip">🟢 Còn hàng</span>
+          </div>
+        </div>
+
+        <!-- Metrics Key-Value Grid -->
+        <div class="detail-metrics-grid">
+          <div class="detail-metric-card">
+            <span class="metric-label">Giá thanh toán VNĐ</span>
+            <strong id="modal-detail-vnd" class="metric-val text-vnd">0 đ</strong>
+          </div>
+          <div class="detail-metric-card">
+            <span class="metric-label">Quy đổi USDT</span>
+            <strong id="modal-detail-usdt" class="metric-val text-usdt">0.00 USDT</strong>
+          </div>
+          <div class="detail-metric-card">
+            <span class="metric-label">Tồn kho khả dụng</span>
+            <strong id="modal-detail-stock" class="metric-val text-stock">0 cái</strong>
+          </div>
+        </div>
+
+        <!-- Service Commitments -->
+        <div class="detail-features-row">
+          <div class="detail-feature-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m13 2-9 12h8l-1 8 9-12h-8l1-8Z"/></svg>
+            <span>Giao tự động 24/7</span>
+          </div>
+          <div class="detail-feature-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3v8Z"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>Bảo hành chu đáo 1-1</span>
+          </div>
+          <div class="detail-feature-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Hỗ trợ kỹ thuật nhanh</span>
+          </div>
+        </div>
+
+        <!-- Instructions and Policy -->
+        <div class="detail-desc-container">
+          <div class="detail-desc-head">
+            <div class="desc-head-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              <h4>Hướng dẫn kích hoạt & Quy định bảo hành</h4>
+            </div>
+            <button type="button" class="btn-copy-desc" onclick="store.copyDetailDesc()" title="Sao chép hướng dẫn">Sao chép</button>
+          </div>
+          <div id="modal-detail-desc" class="formatted-desc-box"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer detail-modal-footer">
+        <button class="btn btn-secondary" data-close-modal>Đóng</button>
+        <button id="btn-modal-detail-buy" class="btn btn-primary btn-glow btn-detail-buy">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+          </svg>
+          <span>Mua gói này ngay</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ĐƠN HÀNG CỦA KHÁCH HÀNG            -->
+  <!-- ========================================== -->
+  <div id="modal-orders" class="modal-backdrop">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <h3 class="modal-title">Lịch sử đơn hàng của bạn</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>Mã đơn</th>
+                <th>Thời gian</th>
+                <th>Sản phẩm</th>
+                <th>SL</th>
+                <th>Thanh toán</th>
+                <th>Dữ liệu đã nhận</th>
+              </tr>
+            </thead>
+            <tbody id="my-orders-tbody">
+              <tr><td colspan="6" class="text-center py-4">Đang tải...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal>Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: BẢNG ĐIỀU KHIỂN QUẢN TRỊ ADMIN     -->
+  <!-- ========================================== -->
+  <div id="modal-admin" class="modal-backdrop">
+    <div class="modal-dialog modal-lg" style="max-width: 900px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Bảng Điều Khiển Quản Trị</h3>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
+      </div>
+
+      <div class="admin-tab-nav">
+        <button class="admin-tab-btn active" onclick="admin.switchTab('overview')">Tổng quan & Vốn kho</button>
+        <button class="admin-tab-btn" onclick="admin.switchTab('settings')">Cấu hình Lợi nhuận & Ngân hàng</button>
+        <button class="admin-tab-btn" onclick="admin.switchTab('users')">Quản lý Khách hàng</button>
+        <button class="admin-tab-btn" onclick="admin.switchTab('orders')">Tất cả Đơn hàng</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Admin Tab 1: Overview & Supplier Monitor -->
+        <div id="admin-tab-overview" class="admin-pane active">
+          <div class="admin-stats-grid">
+            <div class="stat-card">
+              <span class="stat-label">Tổng khách hàng</span>
+              <strong class="stat-val" id="admin-stat-users">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Tổng đơn bán</span>
+              <strong class="stat-val" id="admin-stat-orders">0</strong>
+            </div>
+            <div class="stat-card highlight-profit">
+              <span class="stat-label">Lợi nhuận VNĐ đã thu</span>
+              <strong class="stat-val text-emerald" id="admin-stat-profit-vnd">0 đ</strong>
+            </div>
+          </div>
+
+          <div class="supplier-monitor-card">
+            <div class="sup-header">
+              <div class="sup-badge">
+                <span class="pulse-dot"></span>
+                <span>Số dư Tổng Kho (Shop Bot Gốc)</span>
+              </div>
+              <button class="btn btn-xs btn-outline" onclick="admin.refreshSupplierBalance()">Làm mới</button>
+            </div>
+            <div class="sup-body">
+              <div class="sup-row">
+                <span>Tài khoản kho:</span>
+                <strong id="admin-sup-username">haqfuong2075</strong>
+              </div>
+              <div class="sup-row">
+                <span>Số dư vốn VNĐ còn lại:</span>
+                <strong id="admin-sup-vnd" class="text-emerald">0 đ</strong>
+              </div>
+            </div>
+            <div class="sup-tip">
+              <strong>Lưu ý:</strong> <em>Khi khách mua hàng trên web, hệ thống sẽ trừ trực tiếp vào số dư kho này để lấy tài khoản. Hãy duy trì đủ số dư kho để khách không bị gián đoạn.</em>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Tab 2: Pricing & Settings -->
+        <div id="admin-tab-settings" class="admin-pane" style="display: none;">
+          <form onsubmit="admin.saveSettings(event)">
+            <div class="form-group">
+              <label for="admin-set-markup">Tỷ lệ Lợi nhuận mặc định (% Markup):</label>
+              <div class="input-with-currency">
+                <input type="number" id="admin-set-markup" min="0" max="200" step="1" required>
+                <span class="currency-tag">%</span>
+              </div>
+              <span class="input-hint">Ví dụ: Nhập <code>15</code> tức giá bán cho khách = Giá vốn + 15% lợi nhuận (tự động làm tròn nghìn đồng).</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="form-group">
+              <label for="admin-set-announcement">Thông báo thanh đầu trang (Announcement):</label>
+              <input type="text" id="admin-set-announcement" class="form-input">
+            </div>
+
+            <button type="submit" id="btn-save-admin-settings" class="btn btn-primary btn-md">
+              Lưu thay đổi cấu hình
+            </button>
+          </form>
+        </div>
+
+        <!-- Admin Tab 3: User Management -->
+        <div id="admin-tab-users" class="admin-pane" style="display: none;">
+          <div class="admin-users-toolbar">
+            <h4>Danh sách thành viên</h4>
+            <button class="btn btn-xs btn-outline" onclick="admin.loadUsers()">Tải lại</button>
+          </div>
+          <div class="table-responsive">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Số dư VNĐ</th>
+                  <th>Quyền</th>
+                  <th>Cộng/Trừ tiền</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Admin Tab 4: All Orders -->
+        <div id="admin-tab-orders" class="admin-pane" style="display: none;">
+          <div class="table-responsive">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>Mã đơn</th>
+                  <th>Khách hàng</th>
+                  <th>Sản phẩm</th>
+                  <th>Khách trả</th>
+                  <th>Lợi nhuận</th>
+                  <th>Trạng thái</th>
+                  <th>Thời gian</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="admin-all-orders-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/app.js?v=20260916-fix5"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Environment & Secrets
+.env
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Browser data
+data/
+
+# IDE
+.vscode/
+.idea/
+
+# Temp
+dom_dump.html

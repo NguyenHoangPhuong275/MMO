@@ -539,6 +539,33 @@ app.post(['/api/shop/checkout/vietqr/check', '/api/shop/checkout/msb/check'], re
   return res.json({ success: true, checkout: serializeCheckout(refreshed, order) });
 });
 
+// Cancel a pending checkout
+app.post('/api/shop/checkout/cancel', requireAuth, async (req, res) => {
+  try {
+    const code = String(req.body.code || '').trim().toUpperCase();
+    if (!code) return res.status(400).json({ success: false, error: 'Thiếu mã đơn thanh toán' });
+
+    const result = db.cancelCheckout(req.user.id, code);
+    if (!result.success) {
+      return res.status(404).json({ success: false, error: result.error });
+    }
+
+    // Cancel PayOS payment link if applicable
+    if (result.payment_provider === 'payos' && result.order_code) {
+      try {
+        await payosService.cancelPaymentLink(result.order_code, 'Khách hàng hủy đơn');
+      } catch (cancelErr) {
+        console.warn(`PayOS cancel link warning for ${result.order_code}:`, cancelErr.message);
+      }
+    }
+
+    return res.json({ success: true, message: 'Đơn thanh toán đã được hủy thành công' });
+  } catch (err) {
+    console.error(`[${req.requestId}] Cancel checkout failed:`, err.message);
+    return res.status(500).json({ success: false, error: 'Không thể hủy đơn thanh toán' });
+  }
+});
+
 // Customer Orders History
 app.get('/api/shop/orders', requireAuth, (req, res) => {
   try {

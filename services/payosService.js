@@ -97,6 +97,29 @@ class PayosService {
     }
     return null;
   }
+
+  /**
+   * Hủy link thanh toán PayOS theo mã đơn
+   */
+  async cancelPaymentLink(orderCode, cancellationReason) {
+    if (!this.isConfigured()) {
+      throw new Error('Cổng thanh toán PayOS chưa được cấu hình');
+    }
+
+    try {
+      if (this.payOS.paymentRequests?.cancel) {
+        return await this.payOS.paymentRequests.cancel(orderCode, cancellationReason);
+      }
+      if (typeof this.payOS.cancelPaymentLink === 'function') {
+        return await this.payOS.cancelPaymentLink(orderCode, cancellationReason);
+      }
+      console.warn('PayOS SDK does not support cancel. Skipping.');
+      return null;
+    } catch (err) {
+      console.warn(`PayOS cancelPaymentLink warning: ${err.message}`);
+      return null;
+    }
+  }
 }
 
 const payosService = new PayosService();

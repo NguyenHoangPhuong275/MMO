@@ -688,6 +688,27 @@ module.exports = {
     `).run().changes;
   },
 
+  cancelCheckout(userId, code) {
+    const checkout = db.prepare(`
+      SELECT id, status, payment_provider, order_code FROM direct_checkouts
+      WHERE user_id = ? AND code = ? AND status = 'pending'
+    `).get(userId, String(code || '').trim().toUpperCase());
+
+    if (!checkout) return { success: false, error: 'Không tìm thấy đơn thanh toán đang chờ' };
+
+    db.prepare(`
+      UPDATE direct_checkouts
+      SET status = 'cancelled', error = 'Khách hàng đã hủy đơn', updated_at = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `).run(checkout.id);
+
+    return {
+      success: true,
+      payment_provider: checkout.payment_provider,
+      order_code: checkout.order_code
+    };
+  },
+
   failUsdtDeposit(userId, code, reason = 'Lệnh nạp đã hết hạn') {
     return db.prepare(`
       UPDATE transactions SET status = 'failed', note = ?

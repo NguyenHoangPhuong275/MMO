@@ -899,10 +899,27 @@ const store = {
     document.getElementById('msb-transfer-content').innerText = checkout.transfer_content || checkout.code;
     document.getElementById('msb-account-number').innerText = checkout.bank_account_number || '---';
     document.getElementById('msb-account-name').innerText = `${checkout.bank_account_name || ''} · ${checkout.bank_name || 'VietQR'}`;
+
+    // Amount (main + copy in info column)
     const amountEl = document.getElementById('msb-payment-amount');
     amountEl.innerText = this.formatVnd(checkout.amount_vnd);
     amountEl.dataset.raw = String(checkout.amount_vnd);
+    const amountCopy = document.getElementById('msb-payment-amount-copy');
+    if (amountCopy) {
+      amountCopy.innerText = this.formatVnd(checkout.amount_vnd);
+      amountCopy.dataset.raw = String(checkout.amount_vnd);
+    }
+
+    // Product name in header
+    const prodName = document.getElementById('payment-product-name');
+    if (prodName) prodName.innerText = checkout.product_name || `Đơn hàng ${checkout.code}`;
+
     document.getElementById('msb-expiry-hint').innerText = `Đơn có hiệu lực đến ${this.formatDate(checkout.expires_at)}.`;
+
+    // Show/hide cancel button based on status
+    const cancelBtn = document.getElementById('btn-cancel-payment');
+    if (cancelBtn) cancelBtn.style.display = (checkout.status === 'pending') ? 'inline-flex' : 'none';
+
     this.updateMsbPaymentStatus(checkout);
     this.openModal('modal-payment');
 
@@ -919,17 +936,59 @@ const store = {
     const badge = document.getElementById('msb-status-badge');
     const label = document.getElementById('msb-status-label');
     const statuses = {
-      pending: ['status-badge-pulse', 'Đang chờ ngân hàng xác nhận thanh toán...'],
-      processing: ['status-badge-pulse confirmed', 'Đã nhận tiền, đang lấy sản phẩm...'],
-      delivered: ['status-badge-pulse confirmed', 'Thanh toán thành công, sản phẩm đã sẵn sàng'],
-      expired: ['status-badge-pulse failed', 'Đơn đã hết hạn thanh toán'],
-      amount_mismatch: ['status-badge-pulse failed', 'Số tiền chuyển khoản không khớp'],
-      paid_late: ['status-badge-pulse failed', 'Thanh toán sau khi đơn hết hạn'],
-      paid_pending_delivery: ['status-badge-pulse failed', 'Đã nhận tiền, đang chờ xử lý giao hàng']
+      pending: ['payment-status-bar', 'Đang chờ ngân hàng xác nhận thanh toán...'],
+      processing: ['payment-status-bar status-confirmed', 'Đã nhận tiền, đang lấy sản phẩm...'],
+      delivered: ['payment-status-bar status-confirmed', 'Thanh toán thành công, sản phẩm đã sẵn sàng'],
+      expired: ['payment-status-bar status-failed', 'Đơn đã hết hạn thanh toán'],
+      cancelled: ['payment-status-bar status-failed', 'Đơn đã được hủy bởi khách hàng'],
+      amount_mismatch: ['payment-status-bar status-failed', 'Số tiền chuyển khoản không khớp'],
+      paid_late: ['payment-status-bar status-failed', 'Thanh toán sau khi đơn hết hạn'],
+      paid_pending_delivery: ['payment-status-bar status-failed', 'Đã nhận tiền, đang chờ xử lý giao hàng']
     };
     const view = statuses[checkout.status] || statuses.pending;
     badge.className = view[0];
     label.innerText = view[1];
+  },
+
+  async cancelPayment() {
+    if (!state.activeMsbCheckout?.code) return;
+
+    const confirmed = confirm('Bạn có chắc chắn muốn hủy đơn thanh toán này?\n\nNếu bạn đã chuyển tiền, vui lòng KHÔNG hủy và chờ hệ thống xác nhận.');
+    if (!confirmed) return;
+
+    const cancelBtn = document.getElementById('btn-cancel-payment');
+    if (cancelBtn) {
+      cancelBtn.disabled = true;
+      cancelBtn.innerHTML = '<span class="btn-spinner"></span> Đang hủy...';
+    }
+
+    try {
+      const res = await fetch('/api/shop/checkout/cancel', {
+        method: 'POST',
+        headers: this.getAuthHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ code: state.activeMsbCheckout.code })
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        this.clearMsbPoll();
+        state.activeMsbCheckout = null;
+        localStorage.removeItem('shop_active_msb_checkout');
+        const activePaymentBtn = document.getElementById('btn-active-payment');
+        if (activePaymentBtn) activePaymentBtn.style.display = 'none';
+        this.closeAllModals();
+        this.showToast('Đơn thanh toán đã được hủy thành công.', 'info');
+      } else {
+        this.showToast(data.error || 'Không thể hủy đơn thanh toán', 'error');
+      }
+    } catch (err) {
+      this.showToast('Lỗi kết nối máy chủ khi hủy đơn', 'error');
+    } finally {
+      if (cancelBtn) {
+        cancelBtn.disabled = false;
+        cancelBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg> Hủy đơn thanh toán';
+      }
+    }
   },
 
   startMsbPoll() {

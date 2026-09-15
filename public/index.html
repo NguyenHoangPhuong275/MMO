@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260916-fix7">
+  <link rel="stylesheet" href="css/style.css?v=20260916-fix8">
 </head>
 <body>
   <!-- Ambient Glow -->
@@ -364,79 +364,105 @@
   <!-- MODAL: THANH TOÁN VIETQR PAYOS TỰ ĐỘNG    -->
   <!-- ========================================== -->
   <div id="modal-payment" class="modal-backdrop">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-header">
-        <h3 class="modal-title">Thanh toán đơn hàng VietQR</h3>
+    <div class="modal-dialog modal-lg payment-modal-card">
+      <!-- Header with product info -->
+      <div class="modal-header payment-modal-header">
+        <div class="payment-header-left">
+          <div class="payment-header-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+          </div>
+          <div class="payment-header-copy">
+            <h3 class="modal-title">Thanh toán VietQR</h3>
+            <p class="payment-header-sub" id="payment-product-name">Đang tải đơn hàng...</p>
+          </div>
+        </div>
         <button class="modal-close-btn" data-close-modal>&times;</button>
       </div>
 
-      <div class="modal-body">
-        <div class="deposit-notice-card">
-          <div class="notice-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-          </div>
-          <div class="notice-text">
-            <span>Quét mã VietQR bằng ứng dụng ngân hàng bất kỳ. Hệ thống sẽ tự động giao hàng ngay sau khi nhận được tiền (<strong>Đúng số tiền & Nội dung</strong>).</span>
-          </div>
+      <div class="modal-body payment-modal-body">
+        <!-- Status Banner -->
+        <div class="payment-status-bar" id="msb-status-badge" role="status" aria-live="polite">
+          <span class="pulse-dot-amber"></span>
+          <span id="msb-status-label">Đang chờ ngân hàng xác nhận thanh toán...</span>
         </div>
 
-        <div class="deposit-pane active">
-          <div id="msb-active-view">
-            <div class="deposit-active-body">
-              <div class="status-badge-pulse" id="msb-status-badge" role="status" aria-live="polite" aria-atomic="true">
-                <span class="pulse-dot-amber"></span>
-                  <span id="msb-status-label">Đang chờ ngân hàng xác nhận thanh toán...</span>
+        <!-- 2-Column Layout -->
+        <div class="payment-layout">
+          <!-- Left: QR Code -->
+          <div class="payment-qr-col">
+            <div class="qr-container">
+              <img id="msb-qr-image" class="qrcode-wrapper msb-qr-image" alt="Mã VietQR thanh toán đơn hàng">
+              <div class="qr-caption">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                Mở ứng dụng ngân hàng → Quét mã QR
+              </div>
+            </div>
+            <div class="payment-amount-highlight">
+              <span class="amount-label">Số tiền thanh toán</span>
+              <span class="big-amount" id="msb-payment-amount" data-raw="0">0 đ</span>
+            </div>
+          </div>
+
+          <!-- Right: Transfer Info -->
+          <div class="payment-info-col">
+            <div class="payment-info-box">
+              <div class="info-item">
+                <span class="info-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  Nội dung chuyển khoản
+                </span>
+                <div class="wallet-copy-row">
+                  <code id="msb-transfer-content" class="wallet-code">DH...</code>
+                  <button class="btn btn-sm btn-outline" onclick="store.copyText(document.getElementById('msb-transfer-content').innerText, 'Đã sao chép nội dung!')">Sao chép</button>
+                </div>
+                <div class="warning-sub">⚠ Không chỉnh sửa — hệ thống cần khớp đúng nội dung.</div>
               </div>
 
-              <div class="qr-container">
-                <img id="msb-qr-image" class="qrcode-wrapper msb-qr-image" alt="Mã VietQR thanh toán đơn hàng" width="270" height="320">
-                <div class="qr-caption">Mở ứng dụng ngân hàng và quét mã VietQR</div>
+              <div class="info-item">
+                <span class="info-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Số tiền cần chuyển
+                </span>
+                <div class="wallet-copy-row">
+                  <span class="big-amount-inline" id="msb-payment-amount-copy" data-raw="0">0 đ</span>
+                  <button class="btn btn-sm btn-outline" onclick="store.copyText(document.getElementById('msb-payment-amount').dataset.raw, 'Đã sao chép số tiền!')">Sao chép</button>
+                </div>
+                <div class="warning-sub">⚠ Cần chuyển đúng số tiền để xử lý tự động.</div>
               </div>
 
-              <div class="payment-info-box">
-                <div class="info-item">
-                  <span class="info-label">NỘI DUNG CHUYỂN KHOẢN:</span>
-                  <div class="wallet-copy-row">
-                    <code id="msb-transfer-content" class="wallet-code">DH...</code>
-                    <button class="btn btn-sm btn-outline" onclick="store.copyText(document.getElementById('msb-transfer-content').innerText, 'Đã sao chép nội dung!')">Sao chép</button>
-                  </div>
-                  <div class="warning-sub">Không chỉnh sửa nội dung để hệ thống nhận đúng đơn.</div>
+              <div class="info-item">
+                <span class="info-label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                  Tài khoản nhận
+                </span>
+                <div class="wallet-copy-row">
+                  <code id="msb-account-number" class="wallet-code">...</code>
+                  <button class="btn btn-sm btn-outline" onclick="store.copyText(document.getElementById('msb-account-number').innerText, 'Đã sao chép số tài khoản!')">Sao chép</button>
                 </div>
-
-                <div class="info-item highlight-amount">
-                  <span class="info-label">SỐ TIỀN CẦN CHUYỂN:</span>
-                  <div class="amount-copy-row">
-                    <span class="big-amount" id="msb-payment-amount" data-raw="0">0 đ</span>
-                    <button class="btn btn-sm btn-outline" onclick="store.copyText(document.getElementById('msb-payment-amount').dataset.raw, 'Đã sao chép số tiền!')">Sao chép</button>
-                  </div>
-                  <div class="warning-sub">Cần chuyển đúng số tiền để đơn được xử lý tự động.</div>
-                </div>
-
-                <div class="info-item">
-                  <span class="info-label">TÀI KHOẢN NHẬN (VIETQR):</span>
-                  <div class="wallet-copy-row">
-                    <code id="msb-account-number" class="wallet-code">...</code>
-                    <button class="btn btn-sm btn-outline" onclick="store.copyText(document.getElementById('msb-account-number').innerText, 'Đã sao chép số tài khoản!')">Sao chép</button>
-                  </div>
-                  <div class="warning-sub" id="msb-account-name"></div>
-                </div>
+                <div class="warning-sub" id="msb-account-name"></div>
               </div>
+            </div>
 
-              <div class="auto-checker-status">
-                <div class="checker-spinner"></div>
-                <div class="checker-text">
-                  <span>Hệ thống tự động kiểm tra mỗi 10 giây...</span>
-                  <p class="checker-sub" id="msb-expiry-hint">Sản phẩm được kích hoạt và giao ngay sau khi nhận tiền.</p>
-                </div>
-                <button class="btn btn-secondary btn-sm" id="btn-msb-check" onclick="store.checkMsbPayment(true)">Kiểm tra ngay</button>
+            <!-- Auto Checker -->
+            <div class="auto-checker-status">
+              <div class="checker-spinner"></div>
+              <div class="checker-text">
+                <span>Tự động kiểm tra mỗi 10 giây</span>
+                <p class="checker-sub" id="msb-expiry-hint">Sản phẩm giao ngay sau khi nhận tiền.</p>
               </div>
+              <button class="btn btn-secondary btn-sm" id="btn-msb-check" onclick="store.checkMsbPayment(true)">Kiểm tra</button>
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Footer with Cancel -->
+      <div class="modal-footer payment-modal-footer">
+        <button type="button" class="btn btn-danger btn-cancel-payment" id="btn-cancel-payment" onclick="store.cancelPayment()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+          Hủy đơn thanh toán
+        </button>
+        <button type="button" class="btn btn-secondary" data-close-modal>Đóng</button>
       </div>
     </div>
   </div>
@@ -791,6 +817,6 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="js/app.js?v=20260916-fix5"></script>
+  <script src="js/app.js?v=20260916-fix8"></script>
 </body>
 </html>

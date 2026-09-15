@@ -2355,18 +2355,49 @@ body {
 .product-price-section {
   margin-top: auto;
   margin-bottom: 14px;
-  padding: 12px 16px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
   transition: var(--transition);
+}
+.product-card .product-price-section {
+  margin-top: auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 .product-price-section:hover {
   background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(16, 185, 129, 0.3);
+  border-color: rgba(52, 211, 153, 0.35);
+}
+.price-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.price-tag-label {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+.price-instant-badge {
+  color: #34d399;
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.price-value-col {
+  display: flex;
+  align-items: baseline;
+  text-align: right;
 }
 .price-label-wrap {
   display: flex;
@@ -2382,12 +2413,15 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
-.price-vnd {
+.price-vnd,
+.product-card .price-vnd {
   font-family: var(--font-heading);
   font-size: 1.35rem;
   font-weight: 800;
   color: #34d399;
   letter-spacing: -0.01em;
+  white-space: nowrap;
+  line-height: 1;
 }
 .price-currency-badge {
   font-family: var(--font-mono);
@@ -4386,7 +4420,7 @@ body {
   z-index: 2;
 }
 
-/* Card Hover Transitions (Clean, Stable & Solid — No Cursor Tilt Effect) */
+/* Card Hover Transitions (Clean, Sharp & Solid — No Blur Haze or Scaling Distortion) */
 .hero-commerce-card {
   position: relative;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
@@ -4394,34 +4428,176 @@ body {
 
 .product-card:hover {
   transform: translateY(-4px);
-  box-shadow: 
-    0 18px 42px -10px rgba(0, 0, 0, 0.6),
-    0 0 24px var(--accent-purple-glow);
-  border-color: rgba(167, 139, 250, 0.55);
+  box-shadow: 0 14px 28px -4px rgba(0, 0, 0, 0.65);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .hero-commerce-card:hover {
   transform: translateY(-4px);
-  box-shadow:
-    0 22px 48px -12px rgba(0, 0, 0, 0.65),
-    0 0 28px var(--accent-cyan-glow);
-  border-color: rgba(6, 182, 212, 0.45);
+  box-shadow: 0 16px 34px -6px rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
-.card-sheen {
-  display: none;
+.product-card:hover .product-media img {
+  transform: none !important;
 }
 
-/* Smooth Volumetric Glow Floating Animation */
-@keyframes spatialFloat1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(35px, -45px) scale(1.08); }
+.product-card::before,
+.product-card:hover::before {
+  display: none !important;
 }
-@keyframes spatialFloat2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-45px, 35px) scale(1.1); }
+
+.card-sheen,
+.three-ambient-glow,
+.ambient-glow-orb,
+.bg-glow,
+.bg-glow-1,
+.bg-glow-2,
+.bg-glow-3 {
+  display: none !important;
 }
-.bg-glow-1 { animation: spatialFloat1 18s ease-in-out infinite alternate; }
-.bg-glow-2 { animation: spatialFloat2 24s ease-in-out infinite alternate; }
+
+/* Modal Enhancements: Buy Modal, Payment Countdown & Orders Empty State */
+.buy-product-summary {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+.buy-product-media {
+  flex-shrink: 0;
+  width: 80px;
+  height: 60px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-tertiary);
+}
+.buy-prod-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.buy-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+.buy-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.buy-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.buy-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 2px;
+}
+.buy-unit-price {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #34d399;
+}
+.buy-stock-info {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Payment Countdown Box */
+.payment-countdown-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  margin: 10px 0 16px;
+  border-radius: 12px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+.countdown-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #fbbf24;
+  font-weight: 600;
+}
+.countdown-clock {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #fbbf24;
+  letter-spacing: 0.04em;
+}
+.countdown-clock.timer-expired {
+  color: #fb7185;
+}
+
+/* Orders Empty State */
+.empty-orders-row {
+  border: none;
+}
+.empty-orders-cell {
+  padding: 46px 20px !important;
+  text-align: center;
+}
+.empty-orders-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 380px;
+  margin: auto;
+}
+.empty-orders-icon {
+  font-size: 2.8rem;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.empty-orders-title {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+.empty-orders-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+/* Modal UX & Windows Scrollbar Polish */
+.modal-dialog {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+.modal-dialog::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-dialog::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+}
 
 

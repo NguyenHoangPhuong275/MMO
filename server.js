@@ -741,6 +741,18 @@ const server = app.listen(PORT, () => {
   console.log(`⚡ ARCHITECTURE: SQLite WAL + Cache Shield + Rate Limiting + Idempotency`);
   if (!process.env.ADMIN_PASSWORD) console.warn('⚠️ Set ADMIN_PASSWORD in production and rotate any legacy admin credential.');
   console.log(`====================================================`);
+
+  // Initialize MongoDB Atlas connection and sync
+  try {
+    const mongoService = require('./services/mongoService');
+    mongoService.connect().then(async (mDb) => {
+      if (mDb) {
+        await mongoService.syncAllFromSqlite(db.db);
+      }
+    }).catch(e => console.warn('[MongoDB] Startup sync warning:', e.message));
+  } catch (err) {
+    console.warn('[MongoDB] Init error:', err.message);
+  }
 });
 
 function shutdown(signal) {

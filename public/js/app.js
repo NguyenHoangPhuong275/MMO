@@ -124,6 +124,12 @@ const store = {
       });
     });
 
+    // Close modal on ESC key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.closeAllModals();
+      }
+    });
   },
 
   // Theme Management (Dark / Light)
@@ -374,11 +380,13 @@ const store = {
             </div>
 
             <div class="product-price-section">
-              <div class="price-label-wrap">
-                <small>Giá thanh toán</small>
+              <div class="price-info-col">
+                <span class="price-tag-label">Giá thanh toán</span>
+                <span class="price-instant-badge">⚡ Giao tự động 24/7</span>
+              </div>
+              <div class="price-value-col">
                 <span class="price-vnd">${this.formatVnd(product.price_vnd)}</span>
               </div>
-              <span class="price-currency-badge">VNĐ</span>
             </div>
 
             <div class="product-actions">
@@ -781,6 +789,17 @@ const store = {
     state.selectedBuyProduct = product;
     state.buyQuantity = 1;
     state.pendingPurchaseKey = null;
+    const visual = this.getProductVisual(product);
+
+    const imgEl = document.getElementById('buy-prod-img');
+    if (imgEl) {
+      imgEl.src = visual.image;
+      imgEl.alt = product.name;
+    }
+    const catEl = document.getElementById('buy-prod-category');
+    if (catEl) catEl.innerText = visual.label || 'Tự động 24/7';
+    const unitPriceEl = document.getElementById('buy-prod-unit-price');
+    if (unitPriceEl) unitPriceEl.innerText = `Đơn giá: ${this.formatVnd(product.price_vnd)}`;
 
     document.getElementById('buy-prod-name').innerText = product.name;
     document.getElementById('buy-prod-stock').innerText = product.stock;
@@ -929,6 +948,7 @@ const store = {
     if (cancelBtn) cancelBtn.style.display = (checkout.status === 'pending') ? 'inline-flex' : 'none';
 
     this.updateMsbPaymentStatus(checkout);
+    this.startPaymentTimer(checkout.expires_at);
     this.openModal('modal-payment');
 
     if (checkout.status === 'pending' || checkout.status === 'processing') this.startMsbPoll();
@@ -1097,7 +1117,20 @@ const store = {
 
       if (data.success && data.orders) {
         if (data.orders.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Bạn chưa có đơn hàng nào.</td></tr>';
+          tbody.innerHTML = `
+            <tr class="empty-orders-row">
+              <td colspan="6" class="empty-orders-cell">
+                <div class="empty-orders-state">
+                  <div class="empty-orders-icon">📦</div>
+                  <h4 class="empty-orders-title">Bạn chưa có đơn hàng nào</h4>
+                  <p class="empty-orders-desc">Các tài khoản bạn đã mua sẽ xuất hiện tại đây kèm hướng dẫn sử dụng và bảo hành.</p>
+                  <button type="button" class="btn btn-primary btn-sm" onclick="store.closeAllModals(); const cat = document.getElementById('catalog'); if (cat) cat.scrollIntoView({ behavior: 'smooth' });">
+                    Khám phá sản phẩm ngay
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
           return;
         }
 
@@ -1197,8 +1230,47 @@ const store = {
     }
   },
 
+  startPaymentTimer(expiresAt) {
+    this.stopPaymentTimer();
+    const timerDisplay = document.getElementById('payment-timer-display');
+    if (!timerDisplay || !expiresAt) return;
+
+    const targetTime = new Date(expiresAt).getTime();
+
+    const update = () => {
+      const now = Date.now();
+      const diffSec = Math.max(0, Math.floor((targetTime - now) / 1000));
+      const mins = Math.floor(diffSec / 60);
+      const secs = diffSec % 60;
+      const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+      if (diffSec <= 0) {
+        timerDisplay.innerText = '00:00 (Hết hạn)';
+        timerDisplay.classList.add('timer-expired');
+        const statusLabel = document.getElementById('msb-status-label');
+        if (statusLabel) statusLabel.innerText = 'Đơn hàng đã hết hạn thanh toán.';
+        this.stopPaymentTimer();
+        return;
+      }
+
+      timerDisplay.innerText = formatted;
+      timerDisplay.classList.remove('timer-expired');
+    };
+
+    update();
+    state.paymentTimerInterval = setInterval(update, 1000);
+  },
+
+  stopPaymentTimer() {
+    if (state.paymentTimerInterval) {
+      clearInterval(state.paymentTimerInterval);
+      state.paymentTimerInterval = null;
+    }
+  },
+
   closeAllModals() {
     this.clearMsbPoll();
+    this.stopPaymentTimer();
     document.querySelectorAll('.modal-backdrop').forEach((m) => m.classList.remove('open'));
     document.body.style.overflow = '';
   },

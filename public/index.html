@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260916-fix11">
+  <link rel="stylesheet" href="css/style.css?v=20260916-fix12">
 </head>
 <body>
   <!-- Three.js Perspective Horizon Grid & Ambient Volumetric Glow -->
@@ -388,6 +388,15 @@
           <span id="msb-status-label">Đang chờ ngân hàng xác nhận thanh toán...</span>
         </div>
 
+        <!-- Live Countdown Timer -->
+        <div class="payment-countdown-box" id="payment-countdown-wrap">
+          <div class="countdown-label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Thời gian giữ mã VietQR:</span>
+          </div>
+          <strong id="payment-timer-display" class="countdown-clock">15:00</strong>
+        </div>
+
         <!-- 2-Column Layout -->
         <div class="payment-layout">
           <!-- Left: QR Code -->
@@ -480,9 +489,18 @@
       </div>
       <div class="modal-body">
         <div class="buy-product-summary">
-          <h4 id="buy-prod-name" class="buy-title">Tên sản phẩm</h4>
-          <div class="buy-stock-info">
-            Tồn kho: <span id="buy-prod-stock" class="text-emerald">0</span> tài khoản có sẵn
+          <div class="buy-product-media">
+            <img id="buy-prod-img" src="images/products/gemini-pro-18m.webp" alt="Sản phẩm" class="buy-prod-thumb" width="80" height="60">
+          </div>
+          <div class="buy-product-info">
+            <span id="buy-prod-category" class="buy-badge">Gói công cụ</span>
+            <h4 id="buy-prod-name" class="buy-title">Tên sản phẩm</h4>
+            <div class="buy-meta-row">
+              <span class="buy-unit-price" id="buy-prod-unit-price">Đơn giá: 0 đ</span>
+              <span class="buy-stock-info">
+                Tồn kho: <span id="buy-prod-stock" class="text-emerald">0</span>
+              </span>
+            </div>
           </div>
         </div>
 
@@ -599,7 +617,7 @@
             <span class="metric-label">Giá thanh toán VNĐ</span>
             <strong id="modal-detail-vnd" class="metric-val text-vnd">0 đ</strong>
           </div>
-          <div class="detail-metric-card">
+          <div class="detail-metric-card" style="display: none !important;">
             <span class="metric-label">Quy đổi USDT</span>
             <strong id="modal-detail-usdt" class="metric-val text-usdt">0.00 USDT</strong>
           </div>
@@ -819,6 +837,6 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="js/app.js?v=20260916-fix11"></script>
+  <script src="js/app.js?v=20260916-fix12"></script>
 </body>
 </html>

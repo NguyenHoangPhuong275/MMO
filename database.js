@@ -2,6 +2,12 @@ const Database = require('better-sqlite3');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const path = require('path');
+let mongoService = null;
+try {
+  mongoService = require('./services/mongoService');
+} catch (e) {
+  // Mongo optional
+}
 
 const dbPath = process.env.DATABASE_PATH
   ? path.resolve(process.env.DATABASE_PATH)
@@ -236,7 +242,11 @@ module.exports = {
       INSERT INTO users (username, email, password_hash, balance_vnd, balance_usdt, role)
       VALUES (?, ?, ?, 0, 0, 'customer')
     `).run(username, email || null, hash);
-    return this.getUserById(info.lastInsertRowid);
+    const user = this.getUserById(info.lastInsertRowid);
+    if (mongoService && user) {
+      mongoService.syncUser(user).catch(() => {});
+    }
+    return user;
   },
 
   verifyPassword(password, hash) {

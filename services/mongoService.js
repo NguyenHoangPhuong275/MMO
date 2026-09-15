@@ -63,19 +63,20 @@ class MongoService {
 
   // Sync a user document
   async syncUser(user) {
-    if (!this.isConnected || !this.db || !user) return;
+    if (!this.isConnected || !this.db || !user || !user.username) return;
     try {
+      const cleanUsername = String(user.username).trim();
       await this.db.collection('users').updateOne(
-        { username: user.username },
+        { username: cleanUsername },
         { 
           $set: { 
-            sqlite_id: user.id,
-            username: user.username,
-            email: user.email || null,
-            password_hash: user.password_hash,
-            balance_vnd: user.balance_vnd || 0,
-            balance_usdt: user.balance_usdt || 0,
-            role: user.role || 'customer',
+            sqlite_id: Number(user.id) || null,
+            username: cleanUsername,
+            email: user.email ? String(user.email).trim() : null,
+            password_hash: String(user.password_hash || ''),
+            balance_vnd: Number(user.balance_vnd) || 0,
+            balance_usdt: Number(user.balance_usdt) || 0,
+            role: String(user.role || 'customer'),
             updated_at: new Date()
           },
           $setOnInsert: {
@@ -91,24 +92,25 @@ class MongoService {
 
   // Sync an order document
   async syncOrder(order) {
-    if (!this.isConnected || !this.db || !order) return;
+    if (!this.isConnected || !this.db || !order || !order.id) return;
     try {
+      const sqliteId = Number(order.id);
       await this.db.collection('orders').updateOne(
-        { sqlite_id: order.id },
+        { sqlite_id: sqliteId },
         {
           $set: {
-            sqlite_id: order.id,
-            user_id: order.user_id,
-            upstream_order_id: order.upstream_order_id || null,
-            product_id: order.product_id,
-            product_name: order.product_name,
-            quantity: order.quantity,
-            currency: order.currency || 'vnd',
-            price_paid: order.price_paid,
-            cost_price: order.cost_price,
-            profit: order.profit,
+            sqlite_id: sqliteId,
+            user_id: Number(order.user_id),
+            upstream_order_id: order.upstream_order_id ? Number(order.upstream_order_id) : null,
+            product_id: Number(order.product_id),
+            product_name: String(order.product_name || ''),
+            quantity: Number(order.quantity) || 1,
+            currency: String(order.currency || 'vnd'),
+            price_paid: Number(order.price_paid) || 0,
+            cost_price: Number(order.cost_price) || 0,
+            profit: Number(order.profit) || 0,
             items: Array.isArray(order.items) ? order.items : (typeof order.items === 'string' ? JSON.parse(order.items || '[]') : []),
-            status: order.status || 'completed',
+            status: String(order.status || 'completed'),
             updated_at: new Date()
           },
           $setOnInsert: {
@@ -124,27 +126,28 @@ class MongoService {
 
   // Sync a direct checkout document
   async syncDirectCheckout(checkout) {
-    if (!this.isConnected || !this.db || !checkout) return;
+    if (!this.isConnected || !this.db || !checkout || !checkout.code) return;
     try {
+      const cleanCode = String(checkout.code).trim().toUpperCase();
       await this.db.collection('direct_checkouts').updateOne(
-        { code: checkout.code },
+        { code: cleanCode },
         {
           $set: {
-            sqlite_id: checkout.id,
-            code: checkout.code,
-            idempotency_key: checkout.idempotency_key,
-            user_id: checkout.user_id,
-            product_id: checkout.product_id,
-            product_name: checkout.product_name,
-            quantity: checkout.quantity,
-            amount_vnd: checkout.amount_vnd,
-            cost_price_vnd: checkout.cost_price_vnd,
-            qr_url: checkout.qr_url,
-            payment_provider: checkout.payment_provider || 'payos',
-            payment_transaction_id: checkout.payment_transaction_id || null,
-            status: checkout.status,
-            error: checkout.error || null,
-            order_id: checkout.order_id || null,
+            sqlite_id: Number(checkout.id) || null,
+            code: cleanCode,
+            idempotency_key: String(checkout.idempotency_key || ''),
+            user_id: Number(checkout.user_id),
+            product_id: Number(checkout.product_id),
+            product_name: String(checkout.product_name || ''),
+            quantity: Number(checkout.quantity) || 1,
+            amount_vnd: Number(checkout.amount_vnd) || 0,
+            cost_price_vnd: Number(checkout.cost_price_vnd) || 0,
+            qr_url: String(checkout.qr_url || ''),
+            payment_provider: String(checkout.payment_provider || 'payos'),
+            payment_transaction_id: checkout.payment_transaction_id ? String(checkout.payment_transaction_id) : null,
+            status: String(checkout.status || 'pending'),
+            error: checkout.error ? String(checkout.error) : null,
+            order_id: checkout.order_id ? Number(checkout.order_id) : null,
             expires_at: checkout.expires_at ? new Date(checkout.expires_at) : null,
             paid_at: checkout.paid_at ? new Date(checkout.paid_at) : null,
             delivered_at: checkout.delivered_at ? new Date(checkout.delivered_at) : null,

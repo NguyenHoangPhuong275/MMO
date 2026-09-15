@@ -819,15 +819,15 @@ module.exports = {
       if (!user) throw new Error('Không tìm thấy người dùng');
 
       if (currency === 'vnd') {
-        if (user.balance_vnd < pricePaid) {
+        const updateRes = db.prepare('UPDATE users SET balance_vnd = balance_vnd - ? WHERE id = ? AND balance_vnd >= ?').run(pricePaid, userId, pricePaid);
+        if (updateRes.changes === 0) {
           throw new Error('Số dư ví VNĐ không đủ để thanh toán');
         }
-        db.prepare('UPDATE users SET balance_vnd = balance_vnd - ? WHERE id = ?').run(pricePaid, userId);
       } else {
-        if (user.balance_usdt < pricePaid) {
+        const updateRes = db.prepare('UPDATE users SET balance_usdt = balance_usdt - ? WHERE id = ? AND balance_usdt >= ?').run(pricePaid, userId, pricePaid);
+        if (updateRes.changes === 0) {
           throw new Error('Số dư ví USDT không đủ để thanh toán');
         }
-        db.prepare('UPDATE users SET balance_usdt = balance_usdt - ? WHERE id = ?').run(pricePaid, userId);
       }
 
       const profit = Math.max(0, pricePaid - costPrice);

@@ -3769,3 +3769,214 @@ body {
   .modal-dialog.modal-lg { max-width: 100%; }
 }
 
+/* ==========================================================================
+   REMAINING COMPONENT STYLES (Audit-discovered)
+   ========================================================================== */
+
+/* Button: Medium size */
+.btn-md {
+  padding: 10px 20px;
+  font-size: 0.92rem;
+}
+
+/* Button: Orders (header) */
+.btn-orders {
+  gap: 6px;
+}
+.btn-orders span {
+  display: inline;
+}
+
+/* Empty State (no products) */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--text-muted);
+}
+.empty-state h3 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+.empty-state p {
+  font-size: 0.84rem;
+  max-width: 360px;
+  line-height: 1.6;
+}
+.empty-icon {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* Footer */
+.footer-bottom {
+  padding: 12px 0 24px;
+}
+.footer-bottom p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Auth Form */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Brand Text (Header) */
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.2;
+}
+
+/* Theme Toggle Icons */
+.sun-icon,
+.moon-icon {
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+/* Rate Pill Sub-elements */
+.rate-icon {
+  color: var(--accent-amber);
+  flex-shrink: 0;
+}
+.rate-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* QR Code Wrapper (legacy compat) */
+.qrcode-wrapper {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+}
+
+/* Toast Sub-elements */
+.toast-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.toast-msg {
+  flex: 1;
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+/* Out of Stock Product Card */
+.product-card.out-of-stock {
+  opacity: 0.6;
+}
+.product-card.out-of-stock .product-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: inherit;
+}
+
+/* Stock Badges */
+.stock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.stock-badge.stock-in {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+.stock-badge.stock-in i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+}
+.stock-badge.stock-out {
+  background: rgba(244, 63, 94, 0.12);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.25);
+}
+
+/* Load More Wrap */
+.load-more-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0;
+}
+.result-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Disabled button class */
+.btn.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* User Info Text */
+.user-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.user-role-badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  background: rgba(100, 116, 139, 0.2);
+  color: var(--text-muted);
+}
+.user-role-badge.role-admin {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+.user-role-badge.role-customer {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+/* Auth Buttons Group */
+.auth-buttons-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.auth-user-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 768px) {
+  .rate-pill { display: none; }
+  .brand-sub { display: none; }
+  .btn-orders span { display: none; }
+  .auth-buttons-group { gap: 6px; }
+}
+

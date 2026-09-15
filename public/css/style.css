@@ -21,6 +21,7 @@
   --accent-cyan-glow: rgba(6, 182, 212, 0.25);
   --accent-blue: #3b82f6;
   --accent-purple: #8b5cf6;
+  --accent-purple-glow: rgba(139, 92, 246, 0.25);
   --accent-amber: #f59e0b;
   --accent-rose: #f43f5e;
 
@@ -92,14 +93,16 @@ body {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   margin-bottom: 14px;
-  flex-wrap: wrap;
-  gap: 14px;
+  gap: 10px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 16px;
+  min-width: 0;
+  flex-shrink: 1;
+  overflow: hidden;
 }
 
 .brand-logo {
@@ -141,8 +144,8 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 .rate-pill {
@@ -166,8 +169,7 @@ body {
 .auth-user-group {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .balance-card-group {
@@ -1498,7 +1500,7 @@ body {
 .app-container { max-width: 1460px; padding-top: 20px; }
 .app-header { border-radius: 20px; background: rgba(10,17,28,.9); box-shadow: 0 20px 60px rgba(0,0,0,.22); }
 .brand-logo { color: inherit; text-decoration: none; }
-.auth-buttons-group,.auth-user-group { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.auth-buttons-group,.auth-user-group { display:flex; align-items:center; gap:8px; }
 .btn-warning { background:rgba(245,158,11,.14); border:1px solid rgba(245,158,11,.28); color:#fbbf24; }
 .btn-xs { padding:5px 9px; font-size:.72rem; }
 .btn-logout { display:grid; width:30px; height:30px; place-items:center; border:0; border-radius:8px; background:transparent; color:#718096; cursor:pointer; }
@@ -1587,7 +1589,7 @@ body {
 @media (max-width:1180px) { .store-hero{grid-template-columns:1fr .8fr;gap:26px}.products-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.header-right .rate-pill{display:none}.admin-stats-grid{grid-template-columns:1fr 1fr} }
 @media (max-width:900px) { .store-hero{grid-template-columns:1fr;min-height:0}.hero-commerce-card{width:100%}.products-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.category-btn{flex:none}.vietqr-layout{grid-template-columns:1fr}.vietqr-image-wrapper{max-width:380px;margin:auto} }
 @media (max-width:768px) {
-  .app-container{padding:10px 10px 60px}.app-header{padding:13px;border-radius:16px}.brand-sub,.rate-pill{display:none}.header-right,.auth-user-group{width:100%}.auth-buttons-group{margin-left:auto}.auth-user-group .balance-card-group{order:4;width:100%}.auth-user-group>.btn{flex:1}.user-pill{margin-left:auto}
+  .app-container{padding:10px 10px 60px}.app-header{padding:10px 12px;border-radius:16px}.brand-sub,.rate-pill{display:none}.auth-buttons-group{margin-left:auto}.auth-user-group .balance-card-group{order:4}.auth-user-group>.btn{flex-shrink:0}.user-pill{margin-left:auto}
   .announcement-banner{align-items:flex-start;justify-content:flex-start}.store-hero{padding:30px 20px;border-radius:20px}.hero-title{font-size:clamp(2.25rem,11vw,3.2rem)}.hero-desc{font-size:.88rem}.hero-actions{width:100%;flex-direction:column}.hero-actions .btn{width:100%}.hero-trust-badges{display:grid;grid-template-columns:1fr 1fr;width:100%}.trust-badge{justify-content:center}.hero-commerce-card{padding:15px}
   .category-nav{top:6px}.toolbar-card{position:static;padding:10px}.filter-group,.filter-pill-selector{width:100%}.products-grid{grid-template-columns:1fr}.product-card{min-height:375px}.modal-dialog{width:calc(100% - 18px);max-height:calc(100vh - 18px)}.currency-selector-grid{grid-template-columns:1fr}.bank-row{align-items:flex-start;flex-direction:column}.bank-val{text-align:left}.copy-cell{width:100%}.admin-stats-grid{grid-template-columns:1fr 1fr}.toast-container{right:10px;bottom:10px;left:10px}.toast{width:100%;min-width:0}
 }
@@ -1597,8 +1599,7 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
   .app-container { padding: 12px 12px 60px; }
-  .app-header { flex-direction: column; align-items: stretch; }
-  .header-right { justify-content: space-between; }
+  .header-right { gap: 6px; }
   .hero-title { font-size: 1.45rem; }
   .store-hero { padding: 22px 20px; }
   .products-grid { grid-template-columns: 1fr; }
@@ -1905,8 +1906,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .logo-icon {
@@ -2560,11 +2560,29 @@ body {
 
 @media (max-width: 768px) {
   .app-container { padding: 12px 14px 48px; }
-  .app-header { padding: 12px 14px; }
+  .app-header { padding: 10px 12px; gap: 8px; }
+  .header-left { min-width: 0; }
+  .brand-logo { gap: 8px; }
+  .logo-icon { width: 34px; height: 34px; }
+  .brand-title { font-size: 1rem; }
+  .brand-sub { display: none; }
+  .header-right { gap: 6px; }
+  .rate-pill { display: none; }
+  .theme-toggle-btn { width: 32px; height: 32px; }
+  .btn-orders span { display: none; }
+  .btn.btn-sm { padding: 5px 10px; font-size: 0.75rem; }
+  .auth-buttons-group { gap: 6px; }
+  .auth-user-group { gap: 6px; }
+  .user-pill { padding: 4px 8px; gap: 6px; }
+  .user-name { max-width: 70px; font-size: 0.75rem; }
+  .user-role-badge { display: none; }
   .products-grid { grid-template-columns: 1fr; }
   .hero-title { font-size: clamp(2.2rem, 10vw, 3.2rem); }
   .hero-actions { flex-direction: column; }
   .hero-actions .btn { width: 100%; }
+  .modal-dialog { max-width: 100%; }
+  .form-input, .input-with-currency input { font-size: 0.88rem; min-height: 42px; }
+  .auth-submit-btn { min-height: 44px; font-size: 0.88rem; }
 }
 
 /* ==========================================================================
@@ -3828,7 +3846,7 @@ body {
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 4px;
 }
 
 /* Brand Text (Header) */
@@ -3960,23 +3978,4 @@ body {
   color: #60a5fa;
 }
 
-/* Auth Buttons Group */
-.auth-buttons-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.auth-user-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: nowrap;
-}
-
-@media (max-width: 768px) {
-  .rate-pill { display: none; }
-  .brand-sub { display: none; }
-  .btn-orders span { display: none; }
-  .auth-buttons-group { gap: 6px; }
-}
 

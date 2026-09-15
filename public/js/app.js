@@ -922,7 +922,7 @@ const store = {
     const activePaymentBtn = document.getElementById('btn-active-payment');
     if (activePaymentBtn) activePaymentBtn.style.display = 'inline-flex';
 
-    document.getElementById('msb-qr-image').src = checkout.qr_url;
+    document.getElementById('msb-qr-image').src = this.safeUrl(checkout.qr_url);
     document.getElementById('msb-transfer-content').innerText = checkout.transfer_content || checkout.code;
     document.getElementById('msb-account-number').innerText = checkout.bank_account_number || '---';
     document.getElementById('msb-account-name').innerText = `${checkout.bank_account_name || ''} · ${checkout.bank_name || 'VietQR'}`;
@@ -1379,6 +1379,15 @@ const store = {
       .replace(/\n/g, '\\n')
       .replace(/\u2028/g, '\\u2028')
       .replace(/\u2029/g, '\\u2029');
+  },
+
+  safeUrl(url) {
+    if (!url || typeof url !== 'string') return '';
+    const trimmed = url.trim();
+    if (/^(https?:\/\/|data:image\/|\/)/i.test(trimmed)) {
+      return trimmed;
+    }
+    return '';
   }
 };
 

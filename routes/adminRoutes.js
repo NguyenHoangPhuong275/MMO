@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('../database');
 const cacheService = require('../services/cacheService');
 const mongoService = require('../services/mongoService');
-const { safeString, safeInt } = require('../middleware/security');
+const { safeString, safeInt, safeFloat } = require('../middleware/security');
 
 function createAdminRoutes({ requireAdmin, deliverPayosPaidCheckout }) {
   const router = express.Router();
@@ -77,7 +77,7 @@ function createAdminRoutes({ requireAdmin, deliverPayosPaidCheckout }) {
   router.post('/users/balance', (req, res, next) => {
     try {
       const userId = safeInt(req.body.user_id, 0);
-      const deltaVnd = parseFloat(req.body.delta_vnd) || 0;
+      const deltaVnd = safeFloat(req.body.delta_vnd, 0, -1000000000, 1000000000);
       const note = safeString(req.body.note, 150) || 'Admin điều chỉnh số dư';
 
       if (!userId) return res.status(400).json({ success: false, error: 'Thiếu user_id hợp lệ' });

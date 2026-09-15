@@ -93,7 +93,7 @@ const generalLimiter = rateLimit({
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 30,
+  max: Number(process.env.AUTH_RATE_LIMIT_MAX) || 120,
   message: { success: false, error: 'Bạn đã thử đăng nhập/đăng ký quá nhiều lần. Vui lòng thử lại sau 15 phút.' }
 });
 

@@ -61,6 +61,14 @@ function safeInt(val, fallback = 0, min = -Infinity, max = Infinity) {
   return Math.min(Math.max(num, min), max);
 }
 
+function safeFloat(val, fallback = 0, min = -Infinity, max = Infinity) {
+  if (val === undefined || val === null) return fallback;
+  if (Array.isArray(val)) val = val[0];
+  const num = parseFloat(val);
+  if (!Number.isFinite(num)) return fallback;
+  return Math.min(Math.max(num, min), max);
+}
+
 /**
  * Constant-time password verification helper
  */
@@ -146,6 +154,7 @@ module.exports = {
   sanitizeObject,
   safeString,
   safeInt,
+  safeFloat,
   secureVerifyPassword,
   createSecurityHeaders,
   safeErrorHandler

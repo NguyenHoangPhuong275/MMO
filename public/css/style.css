@@ -170,6 +170,8 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
 .balance-card-group {
@@ -1942,6 +1944,8 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
 /* Theme Toggle Button */
@@ -2633,15 +2637,19 @@ body {
 
 /* Header User Pill & Profile */
 .user-pill {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 12px;
+  padding: 4px 12px 4px 6px;
+  min-height: 42px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 999px;
   box-shadow: var(--shadow-sm);
   transition: var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+  width: auto;
 }
 .user-pill:hover {
   border-color: var(--accent-purple);
@@ -2661,38 +2669,45 @@ body {
   flex-shrink: 0;
 }
 .user-info-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
   min-width: 0;
+  white-space: nowrap;
 }
 .user-name {
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--text-primary);
-  max-width: 120px;
+  white-space: nowrap;
+  line-height: 1;
+  max-width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  line-height: 1.2;
 }
 .user-role-badge {
   font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 1px 6px;
-  border-radius: 4px;
-  display: inline-block;
-  width: fit-content;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  line-height: 1.2;
+  flex-shrink: 0;
 }
 .role-customer {
   background: rgba(6, 182, 212, 0.15);
   color: var(--accent-cyan);
+  border: 1px solid rgba(6, 182, 212, 0.3);
 }
 .role-admin {
   background: rgba(245, 158, 11, 0.15);
   color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
 .btn-logout {
   background: transparent;
@@ -3969,25 +3984,34 @@ body {
 
 /* User Info Text */
 .user-info-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
 }
 .user-role-badge {
   font-size: 0.65rem;
-  font-weight: 600;
-  padding: 1px 6px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
-  background: rgba(100, 116, 139, 0.2);
-  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  line-height: 1.2;
+  flex-shrink: 0;
 }
 .user-role-badge.role-admin {
   background: rgba(245, 158, 11, 0.15);
   color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
 .user-role-badge.role-customer {
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(6, 182, 212, 0.3);
 }
 
 /* ==========================================================================

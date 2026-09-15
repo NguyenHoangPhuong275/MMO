@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260916-fix10">
+  <link rel="stylesheet" href="css/style.css?v=20260916-fix11">
 </head>
 <body>
   <!-- Three.js Perspective Horizon Grid & Ambient Volumetric Glow -->
@@ -35,7 +35,7 @@
       </div>
 
       <div class="header-right">
-        <div class="rate-pill" title="Tỷ giá quy đổi USDT/VNĐ">
+        <div class="rate-pill" title="Tỷ giá quy đổi USDT/VNĐ" style="display: none !important;">
           <svg class="rate-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="m13 2-9 12h8l-1 8 9-12h-8l1-8Z"/>
           </svg>
@@ -85,7 +85,7 @@
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
             </svg>
-            <span>Đơn hàng</span>
+            <span>Đơn hàng của tôi</span>
           </button>
 
           <!-- Admin Dashboard Switch (Visible only for admin) -->
@@ -113,7 +113,7 @@
     </header>
 
     <!-- Announcement Bar -->
-    <div id="site-announcement-bar" class="announcement-banner">
+    <div id="site-announcement-bar" class="announcement-banner" style="display: none !important;">
       <svg class="announcement-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3Z"/><path d="M11.6 15.9 13 21H8l-1.7-6"/></svg>
       <span id="announcement-text">Chào mừng bạn đến với Siêu Thị Tài Khoản Tự Động! Giao hàng tự động 24/7.</span>
     </div>
@@ -161,7 +161,6 @@
         </div>
       </div>
       <aside class="hero-commerce-card" aria-label="Sản phẩm Gemini Pro nổi bật">
-        <div class="card-sheen" aria-hidden="true"></div>
         <img src="images/products/gemini-pro-18m.webp" alt="Minh họa gói Gemini Pro 18 tháng" width="1200" height="900" fetchpriority="high">
         <div class="hero-product-chip">Lựa chọn dài hạn</div>
         <div class="hero-card-footer">
@@ -820,6 +819,6 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="js/app.js?v=20260916-fix10"></script>
+  <script src="js/app.js?v=20260916-fix11"></script>
 </body>
 </html>

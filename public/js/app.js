@@ -65,7 +65,6 @@ const store = {
     }
 
     await this.loadProducts();
-    this.initSpatial3DTilt();
     const modalParam = urlParams.get('modal') || window.location.hash.replace('#', '');
     if ((modalParam === 'payment' || modalParam === 'deposit') && state.activeMsbCheckout) {
       this.displayMsbCheckout(state.activeMsbCheckout);
@@ -357,7 +356,6 @@ const store = {
 
       return `
         <article class="product-card product-card-${visual.tone} ${isOutOfStock ? 'out-of-stock' : ''}">
-          <div class="card-sheen" aria-hidden="true"></div>
           <div class="product-media">
             <img src="${visual.image}" alt="Minh họa ${this.escapeHtml(product.name)}" width="1200" height="900" decoding="async">
             <span class="product-duration">${visual.label}</span>
@@ -376,7 +374,11 @@ const store = {
             </div>
 
             <div class="product-price-section">
-              <div><small>Giá bán</small><span class="price-vnd">${this.formatVnd(product.price_vnd)}</span></div>
+              <div class="price-label-wrap">
+                <small>Giá thanh toán</small>
+                <span class="price-vnd">${this.formatVnd(product.price_vnd)}</span>
+              </div>
+              <span class="price-currency-badge">VNĐ</span>
             </div>
 
             <div class="product-actions">
@@ -402,45 +404,10 @@ const store = {
     loadMore.style.display = hasMore ? 'flex' : 'none';
     loadMore.querySelector('button').style.display = hasMore ? 'inline-flex' : 'none';
     resultCount.innerText = `Đang hiển thị ${visibleProducts.length} / ${filtered.length} sản phẩm`;
-
-    // Initialize 3D Spatial Tilt on newly rendered cards
-    this.initSpatial3DTilt();
   },
 
   initSpatial3DTilt() {
-    // Only apply 3D tilt on fine pointer devices (mouse/trackpad), bypass touchscreens
-    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return;
-
-    const tiltElements = document.querySelectorAll('.product-card, .hero-commerce-card');
-    tiltElements.forEach(el => {
-      if (el.dataset.tiltBound) return;
-      el.dataset.tiltBound = 'true';
-
-      const handleMove = (e) => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        // Controlled subtle tilt angles (max -6 to 6 degrees)
-        const rotateX = ((y - centerY) / centerY) * -6;
-        const rotateY = ((x - centerX) / centerX) * 6;
-
-        el.style.transform = `perspective(1200px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.015, 1.015, 1.015)`;
-        el.style.setProperty('--sheen-x', `${((x / rect.width) * 100).toFixed(1)}%`);
-        el.style.setProperty('--sheen-y', `${((y / rect.height) * 100).toFixed(1)}%`);
-      };
-
-      const handleLeave = () => {
-        el.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-        el.style.setProperty('--sheen-x', '50%');
-        el.style.setProperty('--sheen-y', '50%');
-      };
-
-      el.addEventListener('pointermove', handleMove);
-      el.addEventListener('pointerleave', handleLeave);
-    });
+    // Disabled as requested (bỏ effect cursor khi trỏ)
   },
 
   getProductVisual(product) {

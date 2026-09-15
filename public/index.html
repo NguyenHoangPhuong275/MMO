@@ -64,9 +64,6 @@
         <!-- Dynamic User Auth Section -->
         <div id="auth-guest-section" class="auth-buttons-group">
           <button class="btn btn-secondary btn-sm" onclick="store.openAuthModal('login')">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>
-            </svg>
             Đăng nhập
           </button>
           <button class="btn btn-primary btn-sm btn-glow" onclick="store.openAuthModal('register')">
@@ -76,21 +73,15 @@
 
         <div id="auth-user-section" class="auth-user-group" style="display: none;">
           <button id="btn-active-payment" class="btn btn-primary btn-sm btn-glow" style="display: none;" onclick="store.openActivePayment()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
             Đơn chờ thanh toán
           </button>
           <!-- Customer Orders Button -->
           <button class="btn btn-secondary btn-sm btn-orders" onclick="store.openOrdersModal()" title="Lịch sử mua hàng của bạn">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-            </svg>
             <span>Đơn hàng của tôi</span>
           </button>
 
           <!-- Admin Dashboard Switch (Visible only for admin) -->
           <button id="btn-admin-panel-switch" class="btn btn-warning btn-sm" style="display: none;" onclick="store.openAdminModal()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1A2 2 0 1 1 4.4 17l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1A2 2 0 1 1 7 4.4l.1.1a1.7 1.7 0 0 0 1.8.3h.2a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1A2 2 0 1 1 19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.8v.2a1.7 1.7 0 0 0 1.5 1h.1a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
             <span>Quản trị</span>
           </button>
 
@@ -102,9 +93,7 @@
               <span class="user-role-badge" id="user-role-badge">Khách hàng</span>
             </div>
             <button class="btn-logout" onclick="store.logout()" title="Đăng xuất khỏi tài khoản" aria-label="Đăng xuất">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
-              </svg>
+              Đăng xuất
             </button>
           </div>
         </div>
@@ -129,7 +118,6 @@
         <div class="hero-actions">
           <button class="btn btn-primary btn-lg" onclick="document.getElementById('featured-products').scrollIntoView({ behavior: 'smooth' })">
             Xem 3 gói nổi bật
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
           </button>
           <button class="btn btn-secondary btn-lg" onclick="document.getElementById('featured-products').scrollIntoView({ behavior: 'smooth' })">
             Khám phá danh mục
@@ -138,21 +126,18 @@
 
         <div class="hero-trust-badges">
           <div class="trust-badge">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m13 2-9 12h8l-1 8 9-12h-8l1-8Z"/></svg>
             <div class="trust-badge-text">
               <strong>Giao tự động</strong>
               <small>Nhận thông tin ngay</small>
             </div>
           </div>
           <div class="trust-badge">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3v8Z"/><path d="m9 12 2 2 4-4"/></svg>
             <div class="trust-badge-text">
               <strong>Bảo hành chu đáo</strong>
               <small>Hỗ trợ 1-1 nhanh chóng</small>
             </div>
           </div>
           <div class="trust-badge">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <div class="trust-badge-text">
               <strong>Hỗ trợ 24/7</strong>
               <small>Hệ thống vận hành liên tục</small>
@@ -224,11 +209,6 @@
     <div class="modal-dialog modal-auth-card">
       <div class="modal-header auth-modal-header">
         <div class="auth-header-brand">
-          <div class="auth-brand-badge">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
-          </div>
           <div class="auth-header-copy">
             <h3 class="auth-modal-title" id="auth-modal-title">Chào mừng trở lại!</h3>
             <p class="auth-modal-subtitle" id="auth-modal-subtitle">Đăng nhập tài khoản để nhận sản phẩm tức thì</p>
@@ -240,11 +220,9 @@
       <div class="auth-tabs-wrapper">
         <div class="auth-tabs-segmented" role="tablist">
           <button type="button" class="auth-tab-btn active" id="tab-btn-login" role="tab" aria-selected="true" onclick="store.switchAuthTab('login')">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
             Đăng nhập
           </button>
           <button type="button" class="auth-tab-btn" id="tab-btn-register" role="tab" aria-selected="false" onclick="store.switchAuthTab('register')">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
             Tạo tài khoản
           </button>
         </div>
@@ -370,9 +348,6 @@
       <!-- Header with product info -->
       <div class="modal-header payment-modal-header">
         <div class="payment-header-left">
-          <div class="payment-header-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
-          </div>
           <div class="payment-header-copy">
             <h3 class="modal-title">Thanh toán VietQR</h3>
             <p class="payment-header-sub" id="payment-product-name">Đang tải đơn hàng...</p>
@@ -391,7 +366,6 @@
         <!-- Live Countdown Timer -->
         <div class="payment-countdown-box" id="payment-countdown-wrap">
           <div class="countdown-label">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <span>Thời gian giữ mã VietQR:</span>
           </div>
           <strong id="payment-timer-display" class="countdown-clock">15:00</strong>
@@ -404,7 +378,6 @@
             <div class="qr-container">
               <img id="msb-qr-image" class="qrcode-wrapper msb-qr-image" alt="Mã VietQR thanh toán đơn hàng">
               <div class="qr-caption">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                 Mở ứng dụng ngân hàng → Quét mã QR
               </div>
             </div>
@@ -419,7 +392,6 @@
             <div class="payment-info-box">
               <div class="info-item">
                 <span class="info-label">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                   Nội dung chuyển khoản
                 </span>
                 <div class="wallet-copy-row">
@@ -431,7 +403,6 @@
 
               <div class="info-item">
                 <span class="info-label">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                   Số tiền cần chuyển
                 </span>
                 <div class="wallet-copy-row">
@@ -443,7 +414,6 @@
 
               <div class="info-item">
                 <span class="info-label">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
                   Tài khoản nhận
                 </span>
                 <div class="wallet-copy-row">
@@ -470,7 +440,6 @@
       <!-- Footer with Cancel -->
       <div class="modal-footer payment-modal-footer">
         <button type="button" class="btn btn-danger btn-cancel-payment" id="btn-cancel-payment" onclick="store.cancelPayment()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
           Hủy đơn thanh toán
         </button>
         <button type="button" class="btn btn-secondary" data-close-modal>Đóng</button>
@@ -536,10 +505,6 @@
           <div class="modal-footer" style="padding: 14px 0 0; border-top: 0;">
             <button type="button" class="btn btn-secondary" data-close-modal>Hủy</button>
             <button type="submit" id="btn-submit-buy" class="btn btn-primary btn-glow">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                <line x1="3" y1="6" x2="21" y2="6"/>
-              </svg>
               Tạo mã VietQR
             </button>
           </div>
@@ -555,9 +520,6 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-header header-success">
         <div class="success-header-content">
-          <div class="success-icon-badge" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
-          </div>
           <div>
             <h3 class="modal-title">Giao dịch thành công!</h3>
             <p class="modal-subtitle" id="delivery-prod-title">Sản phẩm của bạn đã được kích hoạt</p>
@@ -588,9 +550,6 @@
   <!-- ========================================== -->
   <!-- MODAL: XEM MÔ TẢ & BẢO HÀNH CHI TIẾT      -->
   <!-- ========================================== -->
-  <!-- ========================================== -->
-  <!-- MODAL: XEM MÔ TẢ & BẢO HÀNH CHI TIẾT      -->
-  <!-- ========================================== -->
   <div id="modal-prod-detail" class="modal-backdrop">
     <div class="modal-dialog modal-detail-card">
       <div class="modal-header detail-modal-header">
@@ -611,17 +570,13 @@
           </div>
         </div>
 
-        <!-- Metrics Key-Value Grid -->
+        <!-- Highlights Bar -->
         <div class="detail-metrics-grid">
-          <div class="detail-metric-card">
-            <span class="metric-label">Giá thanh toán VNĐ</span>
-            <strong id="modal-detail-vnd" class="metric-val text-vnd">0 đ</strong>
+          <div class="metric-card">
+            <span class="metric-label">Giá thanh toán</span>
+            <strong id="modal-detail-price" class="metric-val text-emerald">0 đ</strong>
           </div>
-          <div class="detail-metric-card" style="display: none !important;">
-            <span class="metric-label">Quy đổi USDT</span>
-            <strong id="modal-detail-usdt" class="metric-val text-usdt">0.00 USDT</strong>
-          </div>
-          <div class="detail-metric-card">
+          <div class="metric-card">
             <span class="metric-label">Tồn kho khả dụng</span>
             <strong id="modal-detail-stock" class="metric-val text-stock">0 cái</strong>
           </div>
@@ -630,15 +585,12 @@
         <!-- Service Commitments -->
         <div class="detail-features-row">
           <div class="detail-feature-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m13 2-9 12h8l-1 8 9-12h-8l1-8Z"/></svg>
             <span>Giao tự động 24/7</span>
           </div>
           <div class="detail-feature-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3v8Z"/><path d="m9 12 2 2 4-4"/></svg>
             <span>Bảo hành chu đáo 1-1</span>
           </div>
           <div class="detail-feature-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <span>Hỗ trợ kỹ thuật nhanh</span>
           </div>
         </div>
@@ -647,7 +599,6 @@
         <div class="detail-desc-container">
           <div class="detail-desc-head">
             <div class="desc-head-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
               <h4>Hướng dẫn kích hoạt & Quy định bảo hành</h4>
             </div>
             <button type="button" class="btn-copy-desc" onclick="store.copyDetailDesc()" title="Sao chép hướng dẫn">Sao chép</button>
@@ -659,9 +610,6 @@
       <div class="modal-footer detail-modal-footer">
         <button class="btn btn-secondary" data-close-modal>Đóng</button>
         <button id="btn-modal-detail-buy" class="btn btn-primary btn-glow btn-detail-buy">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
-          </svg>
           <span>Mua gói này ngay</span>
         </button>
       </div>
@@ -837,6 +785,6 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="js/app.js?v=20260916-fix12"></script>
+  <script src="js/app.js?v=20260916-fix13"></script>
 </body>
 </html>

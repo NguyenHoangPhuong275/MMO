@@ -355,7 +355,7 @@ const store = {
       const isOutOfStock = product.stock <= 0;
       const stockBadge = isOutOfStock
         ? `<span class="stock-badge stock-out">Tạm hết hàng</span>`
-        : `<span class="stock-badge stock-in"><i aria-hidden="true"></i>Còn ${product.stock} gói</span>`;
+        : `<span class="stock-badge stock-in">Còn ${product.stock} gói</span>`;
 
       const visual = this.getProductVisual(product);
       const snippet = visual.description.slice(0, 112);
@@ -375,14 +375,14 @@ const store = {
             <p class="product-description-snippet">${this.escapeHtml(snippet)}${snippet.length >= 112 ? '…' : ''}</p>
 
             <div class="product-benefits" aria-label="Quyền lợi">
-              <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Giao tự động</span>
-              <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>Kho realtime</span>
+              <span>Giao tự động</span>
+              <span>Kho realtime</span>
             </div>
 
             <div class="product-price-section">
               <div class="price-info-col">
                 <span class="price-tag-label">Giá thanh toán</span>
-                <span class="price-instant-badge">⚡ Giao tự động 24/7</span>
+                <span class="price-instant-badge">Giao tự động 24/7</span>
               </div>
               <div class="price-value-col">
                 <span class="price-vnd">${this.formatVnd(product.price_vnd)}</span>
@@ -396,10 +396,6 @@ const store = {
               <button class="btn btn-primary btn-sm ${isOutOfStock ? 'disabled' : ''}"
                       ${isOutOfStock ? 'disabled' : ''}
                       onclick="store.openBuyModal(${product.id})">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                  <line x1="3" y1="6" x2="21" y2="6"/>
-                </svg>
                 Mua ngay
               </button>
             </div>
@@ -543,7 +539,7 @@ const store = {
   },
 
   fillDemoAccount(username, password) {
-    this.switchAuthTab('login');
+    this.openAuthModal('login');
     const u = document.getElementById('login-username');
     const p = document.getElementById('login-password');
     if (u) {
@@ -881,13 +877,7 @@ const store = {
       this.showToast('Mất kết nối khi tạo QR. Bạn có thể bấm lại, hệ thống sẽ không tạo trùng đơn.', 'error');
     } finally {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-          <line x1="3" y1="6" x2="21" y2="6"/>
-        </svg>
-        Tạo mã VietQR
-      `;
+      submitBtn.innerHTML = 'Tạo mã VietQR';
     }
   },
 
@@ -1014,7 +1004,7 @@ const store = {
     } finally {
       if (cancelBtn) {
         cancelBtn.disabled = false;
-        cancelBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg> Hủy đơn thanh toán';
+        cancelBtn.innerHTML = 'Hủy đơn thanh toán';
       }
     }
   },
@@ -1121,7 +1111,6 @@ const store = {
             <tr class="empty-orders-row">
               <td colspan="6" class="empty-orders-cell">
                 <div class="empty-orders-state">
-                  <div class="empty-orders-icon">📦</div>
                   <h4 class="empty-orders-title">Bạn chưa có đơn hàng nào</h4>
                   <p class="empty-orders-desc">Các tài khoản bạn đã mua sẽ xuất hiện tại đây kèm hướng dẫn sử dụng và bảo hành.</p>
                   <button type="button" class="btn btn-primary btn-sm" onclick="store.closeAllModals(); const cat = document.getElementById('catalog'); if (cat) cat.scrollIntoView({ behavior: 'smooth' });">
@@ -1599,7 +1588,7 @@ const admin = {
             actionButtons = `
               <div style="display:flex; gap:6px; flex-wrap:wrap;">
                 <button class="btn btn-xs btn-primary" onclick="admin.retryDelivery(${o.checkout_id})">
-                  ⚡ Giao lại
+                  Giao lại
                 </button>
                 <button class="btn btn-xs btn-outline" onclick="admin.promptManualDeliver(${o.checkout_id})">
                   Cấp tay
@@ -1607,7 +1596,7 @@ const admin = {
               </div>
             `;
           } else if (isPending) {
-            statusBadge = '<span class="badge-status badge-info">💳 Chờ khách CK</span>';
+            statusBadge = '<span class="badge-status badge-info">Chờ khách CK</span>';
             actionButtons = '<span class="text-muted" style="font-size:0.75rem;">Đang chờ</span>';
           } else if (isExpired) {
             statusBadge = '<span class="badge-status badge-danger">Hết hạn</span>';

@@ -8,10 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260916-fix8">
+  <link rel="stylesheet" href="css/style.css?v=20260916-fix9">
 </head>
 <body>
-  <!-- Ambient Glow -->
+  <!-- Three.js Perspective Horizon Grid & Ambient Volumetric Glow -->
+  <div class="threejs-grid-horizon" aria-hidden="true"></div>
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>
   <div class="bg-glow bg-glow-3"></div>
@@ -119,8 +120,9 @@
 
     <!-- Hero Storefront Banner -->
     <section class="store-hero">
+      <div class="store-hero-corner-br">[ SPATIAL STORE · 24/7 AUTO ]</div>
       <div class="hero-content">
-        <div class="hero-tag"><span></span> DIGITAL ACCESS STORE</div>
+        <div class="hero-tag"><span class="viewport-hud">AI SPATIAL ACCESS</span> DIGITAL STORE</div>
         <h1 class="hero-title">Công cụ AI & sáng tạo,<br><em>sẵn sàng trong vài phút.</em></h1>
         <p class="hero-desc">Chỉ ba gói được chọn lọc kỹ: Gemini Pro dài hạn và CapCut Pro cho cá nhân hoặc đội nhóm. Quy trình mua gọn, giao tự động và lưu lịch sử đầy đủ.</p>
 
@@ -159,6 +161,7 @@
         </div>
       </div>
       <aside class="hero-commerce-card" aria-label="Sản phẩm Gemini Pro nổi bật">
+        <div class="card-sheen" aria-hidden="true"></div>
         <img src="images/products/gemini-pro-18m.webp" alt="Minh họa gói Gemini Pro 18 tháng" width="1200" height="900" fetchpriority="high">
         <div class="hero-product-chip">Lựa chọn dài hạn</div>
         <div class="hero-card-footer">
@@ -817,6 +820,6 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="js/app.js?v=20260916-fix8"></script>
+  <script src="js/app.js?v=20260916-fix9"></script>
 </body>
 </html>
